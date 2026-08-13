@@ -14,6 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import com.example.unscramble.ui.theme.UnscrambleTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,11 +33,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GameScreen() {
+    var userAnswer by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
         Text(
             text = "UNSCRAMBLE",
             fontSize = 30.sp
@@ -49,8 +58,10 @@ fun GameScreen() {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = { },
+            value = userAnswer,
+            onValueChange = {
+                userAnswer = it
+            },
             label = {
                 Text("Enter your answer")
             }
