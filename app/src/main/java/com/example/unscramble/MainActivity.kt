@@ -10,14 +10,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
-import com.example.unscramble.ui.theme.UnscrambleTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.sp
+import com.example.unscramble.ui.theme.UnscrambleTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +33,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GameScreen() {
+
+    // Stores the answer typed by the user
     var userAnswer by remember {
         mutableStateOf("")
+    }
+
+    // The correct answer
+    val correctAnswer = "CAT"
+
+    // Stores the player's score
+    var score by remember {
+        mutableStateOf(0)
     }
 
     Column(
@@ -68,13 +78,17 @@ fun GameScreen() {
         )
 
         Button(
-            onClick = { }
+            onClick = {
+                if (userAnswer == correctAnswer) {
+                    score++
+                }
+            }
         ) {
             Text("SUBMIT")
         }
 
         Text(
-            text = "Score: 0"
+            text = "Score: $score"
         )
     }
 }
