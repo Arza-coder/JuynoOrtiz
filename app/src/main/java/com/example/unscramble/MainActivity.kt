@@ -6,8 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
@@ -32,6 +36,8 @@ fun GameScreen() {
 
     val viewModel: GameViewModel = viewModel()
 
+    val uiState by viewModel.uiState.collectAsState()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,20 +46,34 @@ fun GameScreen() {
 
         Text(
             text = "UNSCRAMBLE",
-            fontSize = 32.sp
+            fontSize = 30.sp
         )
 
         Text(
-            text = viewModel.words[viewModel.currentWordIndex],
-            fontSize = 42.sp
+            text = uiState.scrambledWord,
+            fontSize = 40.sp
         )
 
         Text(
             text = "Unscramble the word!"
         )
 
+        OutlinedTextField(
+            value = uiState.userAnswer,
+            onValueChange = {},
+            label = {
+                Text("Enter your answer")
+            }
+        )
+
+        Button(
+            onClick = {}
+        ) {
+            Text("SUBMIT")
+        }
+
         Text(
-            text = "Score: ${viewModel.score}"
+            text = "Score : ${uiState.score}"
         )
     }
 }
