@@ -11,6 +11,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,30 +34,30 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GameScreen() {
-
-    // Stores the answer typed by the user
     var userAnswer by remember {
         mutableStateOf("")
     }
 
-    // List of possible words
     val words = listOf(
         "CAT",
         "DOG",
         "BOOK"
     )
 
-    // Keeps track of the current word
     var currentWordIndex by remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
-    // Gets the current correct answer
     val correctAnswer = words[currentWordIndex]
 
-    // Stores the player's score
+    var scrambledWord by remember {
+        mutableStateOf(
+            words[0].toList().shuffled().joinToString("")
+        )
+    }
+
     var score by remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
     Column(
@@ -64,14 +65,13 @@ fun GameScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
         Text(
             text = "UNSCRAMBLE",
             fontSize = 30.sp
         )
 
         Text(
-            text = correctAnswer,
+            text = scrambledWord,
             fontSize = 40.sp
         )
 
@@ -91,20 +91,17 @@ fun GameScreen() {
 
         Button(
             onClick = {
-
-                // Check if the user's answer is correct
                 if (userAnswer == correctAnswer) {
-
-                    // Increase the score
                     score++
 
-                    // Move to the next word if there is another word
                     if (currentWordIndex < words.size - 1) {
-
                         currentWordIndex++
-
-                        // Clear the text field
                         userAnswer = ""
+
+                        scrambledWord = words[currentWordIndex]
+                            .toList()
+                            .shuffled()
+                            .joinToString("")
                     }
                 }
             }
