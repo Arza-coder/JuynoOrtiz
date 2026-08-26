@@ -40,12 +40,12 @@ fun GameScreen() {
 
         Text(
             text = "UNSCRAMBLE",
-            fontSize = 30.sp
+            fontSize = 32.sp
         )
 
         Text(
             text = viewModel.words[viewModel.currentWordIndex],
-            fontSize = 40.sp
+            fontSize = 42.sp
         )
 
         Text(
