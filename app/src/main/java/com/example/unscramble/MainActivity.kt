@@ -39,8 +39,20 @@ fun GameScreen() {
         mutableStateOf("")
     }
 
-    // The correct answer
-    val correctAnswer = "CAT"
+    // List of possible words
+    val words = listOf(
+        "CAT",
+        "DOG",
+        "BOOK"
+    )
+
+    // Keeps track of the current word
+    var currentWordIndex by remember {
+        mutableStateOf(0)
+    }
+
+    // Gets the current correct answer
+    val correctAnswer = words[currentWordIndex]
 
     // Stores the player's score
     var score by remember {
@@ -59,7 +71,7 @@ fun GameScreen() {
         )
 
         Text(
-            text = "TAC",
+            text = correctAnswer,
             fontSize = 40.sp
         )
 
@@ -79,8 +91,21 @@ fun GameScreen() {
 
         Button(
             onClick = {
+
+                // Check if the user's answer is correct
                 if (userAnswer == correctAnswer) {
+
+                    // Increase the score
                     score++
+
+                    // Move to the next word if there is another word
+                    if (currentWordIndex < words.size - 1) {
+
+                        currentWordIndex++
+
+                        // Clear the text field
+                        userAnswer = ""
+                    }
                 }
             }
         ) {
